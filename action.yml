@@ -1,0 +1,23 @@
+name: 'Mudlet Map Diff'
+description: 'Generates diff of Mudlet map'
+inputs:
+  old-map:
+    description: 'Path to old map'
+    required: true
+  new-map:
+    description: 'Path to new map id different'
+    required: false
+  github-token:
+    description: 'Github Token'
+    default: ${{ github.token }}
+    required: false
+outputs:
+  diff: 
+    description: 'Diff JSON'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.old-map }}
+    - ${{ inputs.new-map }}
+    - ${{ inputs.github-token }}
