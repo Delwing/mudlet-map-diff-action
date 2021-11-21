@@ -15,8 +15,8 @@ jobs:
         id: diff
         uses: ./
         with:
-          old-map: base/map/map.dat
-          new-map: map/map.dat
+          old-map: base/example/map.dat
+          new-map: example/map.dat
         env:
           CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
           CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
