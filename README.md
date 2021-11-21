@@ -7,7 +7,7 @@ So far it requires additional step - checkout base branch as well.
 ## Usage example
 
 ```yml
-on: [pull_request]
+on: [pull_request_target]
 
 jobs:
   map-diff:
