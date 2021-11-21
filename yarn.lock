@@ -502,10 +502,10 @@ mudlet-map-binary-reader@^0.0.3:
   dependencies:
     qtdatastream "^1.1.0"
 
-mudlet-map-diff@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-0.1.0.tgz#98f2b39ade460f60b6f5d57f2510e3609ad87be4"
-  integrity sha512-+nNhE+rQFjSRqZtrZ1cERVkfcClGsILm24v4k30EkbKSNp2wXuzjyUDhBnq7bnEqQ8m76JfoDiZ3Irmj5TZq6A==
+mudlet-map-diff@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-0.2.0.tgz#8de6f9ea0223a34f11d98d432a1b379a1161f37a"
+  integrity sha512-VyZXzaAVjPmeiMnffEF3XVCgQSjk9T2VBE4m/H2r5Qhbig1EHo4CGjMeS8SemLv8Uuvz4c48G5cxrf/VEwAZQg==
   dependencies:
     mudlet-map-binary-reader "^0.0.3"
     mudlet-map-renderer "^0.0.2"

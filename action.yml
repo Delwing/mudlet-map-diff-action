@@ -1,11 +1,19 @@
 name: 'Mudlet Map Diff'
 description: 'Generates diff of Mudlet map'
+author: Delwing
+branding:
+  icon: check-square
+  color: blue
 inputs:
   old-map:
     description: 'Path to old map'
     required: true
   new-map:
     description: 'Path to new map id different'
+    required: false
+  tmp-dir:
+    description: 'Temporary directory for diff check'
+    default: 'tmp'
     required: false
   github-token:
     description: 'Github Token'
