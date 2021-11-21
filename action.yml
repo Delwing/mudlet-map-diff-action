@@ -29,7 +29,7 @@ runs:
         path: ${{inputs.tmp-dir}}
     - name: Diff
       id: diff-step
-      uses: ./docker-action.yml
+      uses: ./docker-action
       with:
         old-map: ${{inputs.old-map}}
         new-map: ${{inputs.new-map}}
