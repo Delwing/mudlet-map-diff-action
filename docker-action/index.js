@@ -61,7 +61,7 @@ async function run() {
     }
 
     console.log("===== Diff stats =====")
-    console.log(`Changed: ${Object.keys(diff.changed).length()}`)
+    console.log(`Changed: ${Object.keys(diff.changed).length}`)
     console.log(`Added: ${diff.added.length}`)
     console.log(`Added: ${diff.deleted.length}`)
 
