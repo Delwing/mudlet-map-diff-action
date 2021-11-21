@@ -60,6 +60,11 @@ async function run() {
         message += `Diff:\n\`\`\`js\n${JSON.stringify(diff, null, 4)}\n\`\`\`\n`
     }
 
+    console.log("===== Diff stats =====")
+    console.log(`Changed: ${Object.keys(diff.changed).length()}`)
+    console.log(`Added: ${diff.added.length}`)
+    console.log(`Added: ${diff.deleted.length}`)
+
     const octokit = github.getOctokit(github_token, {
       userAgent: 'mudlet-map-diff-action',
     })
