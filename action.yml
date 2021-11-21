@@ -29,3 +29,4 @@ runs:
     - ${{ inputs.old-map }}
     - ${{ inputs.new-map }}
     - ${{ inputs.github-token }}
+    - ${{ inputs.tmp-dir }}
