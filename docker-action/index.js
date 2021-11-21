@@ -16,6 +16,11 @@ async function run() {
     const newMap = process.argv[3]
     const github_token = process.argv[4]
     const tmpDir = process.argv[5]
+
+    console.log("Old map -> " , oldMap)
+    console.log("New map -> " , newMap)
+    console.log("Tmp dir -> " , tmpDir)
+
     let diff = await createDiff(oldMap, tmpDir + "/" + newMap, "diff", tmpDir)
     core.setOutput(JSON.stringify(diff))
     
