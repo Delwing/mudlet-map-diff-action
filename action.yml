@@ -31,8 +31,5 @@ runs:
       id: diff-step
       uses: ./docker-action
       with:
-        old-map: ${{inputs.old-map}}
-        new-map: ${{inputs.new-map}}
-        tmp-dir: ${{inputs.tmp-dir}}
-        github-token: ${{inputs.github-token}}
+        args: ${{inputs.old-map}} ${{inputs.new-map}} ${{inputs.github-token}} ${{inputs.tmp-dir}}
     
