@@ -7,6 +7,7 @@ inputs:
   new-map:
     description: 'Path to new map id different'
     required: false
+    default: ${{ inputs.old-map }}
   tmp-dir:
     description: 'Temporary directory for diff check'
     default: 'tmp'
@@ -25,8 +26,8 @@ runs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        ref: ${{github.base_ref}}
-        path: ${{inputs.tmp-dir}}
+        ref: ${{ github.base_ref }}
+        path: ${{ inputs.tmp-dir }}
     - name: Diff
       id: diff-step
       uses: ./docker-action
