@@ -18,21 +18,11 @@ inputs:
 outputs:
   diff: 
     description: 'Diff JSON'
-    value: ${{steps.diff-step.outputs.diff}}
 runs:
-  using: 'composite'
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        ref: ${{github.base_ref}}
-        path: ${{inputs.tmp-dir}
-    - name: Diff
-      id: diff-step
-      uses: ./docker-action.yml
-      with:
-        old-map: ${{inputs.old-map}}
-        new-map: ${{inputs.new-map}}
-        tmp-dir: ${{inputs.tmp-dir}}
-        github-token: ${{inputs.github-token}}
-    
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.old-map }}
+    - ${{ inputs.new-map }}
+    - ${{ inputs.github-token }}
+    - ${{ inputs.tmp-dir }}

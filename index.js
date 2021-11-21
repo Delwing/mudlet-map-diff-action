@@ -13,9 +13,10 @@ async function run() {
     }
 
     const oldMap = process.argv[2]
-    const newMap = process.argv[3]
+    const newMap = process.argv[3]    
     const github_token = process.argv[4]
-    let diff = await createDiff(oldMap, newMap, "diff")
+    const tmpDir = process.argv[5]
+    let diff = await createDiff(oldMap, newMap, "diff", tmpDir)
     core.setOutput(JSON.stringify(diff))
     
     let message = "## Mudlet Map Diff\n"
