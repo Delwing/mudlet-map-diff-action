@@ -7,7 +7,7 @@ inputs:
   new-map:
     description: 'Path to new map id different'
     required: false
-    default: ${{ inputs.old-map }}
+    default: ""
   tmp-dir:
     description: 'Temporary directory for diff check'
     default: 'tmp'
