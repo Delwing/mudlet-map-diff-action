@@ -15,21 +15,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{github.base_ref}}
-          path: 'base'
       - name: Create DIFF
         id: diff
         uses: Delwing/mudlet-map-diff-action@v1
         with:
-          old-map: base/map/map.dat
-          new-map: map/map.dat
+          old-map: map/map.dat
         env:
           CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
           CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
           CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+```
+
+## Additional args:
+
+```yml
+    new-map: If new map file has different location in repository use this argument
+    tmp-dir: If you need different directory for temp files than `tmp` use this one
 ```
 
 ## Screenshots
