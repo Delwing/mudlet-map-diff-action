@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-node /index.js $1 $2 $3 $4
+if [ -z "$4" ]
+then
+    node /index.js $1 $1 $2 $3
+else
+    node /index.js $1 $2 $3 $4
+fi

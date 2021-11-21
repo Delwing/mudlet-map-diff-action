@@ -19,7 +19,7 @@ inputs:
 outputs:
   diff: 
     description: 'Diff JSON'
-    value: ${{steps.diff-step.outputs.diff}}
+    value: ${{ steps.diff-step.outputs.diff }}
 runs:
   using: 'composite'
   steps:
