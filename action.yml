@@ -1,11 +1,20 @@
 name: 'Mudlet Map Diff'
 description: 'Generates diff of Mudlet map'
+author: Delwing
+branding:
+  icon: check-square
+  color: blue
 inputs:
   old-map:
     description: 'Path to old map'
     required: true
   new-map:
     description: 'Path to new map id different'
+    required: false
+    default: ""
+  tmp-dir:
+    description: 'Temporary directory for diff check'
+    default: 'tmp'
     required: false
   github-token:
     description: 'Github Token'
@@ -14,10 +23,23 @@ inputs:
 outputs:
   diff: 
     description: 'Diff JSON'
+    value: ${{ steps.diff-step.outputs.diff }}
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.old-map }}
-    - ${{ inputs.new-map }}
-    - ${{ inputs.github-token }}
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.base.ref }}
+        repository: ${{ github.event.pull_request.base.repo.full_name }}
+        fetch-depth: 0
+        path: ${{ inputs.tmp-dir }}
+    - name: Copy docker action
+      run: cp -r ${{ github.action_path}}/docker-action ./docker-action
+      shell: bash
+    - name: Diff
+      id: diff-step
+      uses: ./docker-action
+      with:
+        args: ${{inputs.old-map}} ${{inputs.new-map}} ${{inputs.github-token}} ${{inputs.tmp-dir}}
+    

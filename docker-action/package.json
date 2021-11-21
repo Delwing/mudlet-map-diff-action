@@ -7,6 +7,6 @@
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
     "cloudinary": "^1.27.1",
-    "mudlet-map-diff": "^0.1.0"
+    "mudlet-map-diff": "^0.2.1"
   }
 }
