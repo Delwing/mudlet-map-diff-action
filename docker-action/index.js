@@ -16,7 +16,12 @@ async function run() {
     const newMap = process.argv[3]
     const github_token = process.argv[4]
     const tmpDir = process.argv[5]
-    let diff = await createDiff(oldMap, tmpDir + "/" + newMap, "diff", tmpDir)
+
+    console.log("Old map -> " , oldMap)
+    console.log("New map -> " , newMap)
+    console.log("Tmp dir -> " , tmpDir)
+
+    let diff = await createDiff(tmpDir + "/" + oldMap, newMap, "diff", tmpDir)
     core.setOutput(JSON.stringify(diff))
     
     let message = "## Mudlet Map Diff\n"
@@ -54,6 +59,11 @@ async function run() {
     } else {
         message += `Diff:\n\`\`\`js\n${JSON.stringify(diff, null, 4)}\n\`\`\`\n`
     }
+
+    console.log("===== Diff stats =====")
+    console.log(`Changed: ${Object.keys(diff.changed).length}`)
+    console.log(`Added: ${diff.added.length}`)
+    console.log(`Added: ${diff.deleted.length}`)
 
     const octokit = github.getOctokit(github_token, {
       userAgent: 'mudlet-map-diff-action',
