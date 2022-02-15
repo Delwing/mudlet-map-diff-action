@@ -30,12 +30,16 @@ jobs:
           CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
 ```
 
-## Additional args:
+## Action inputs:
 
-```yml
-    new-map: If new map file has different location in repository use this argument
-    tmp-dir: If you need different directory for temp files than `tmp` use this one
-```
+| Name | Description | Default |
+| --- | --- | --- |
+| `token` | `GITHUB_TOKEN` or a `repo` scoped [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). | `GITHUB_TOKEN` |
+| `old-map` | Path to map file in repository. | |
+| `new-map` | New map file path. Use if differs from `old-map` |  |
+| `tmp-dir` | Temp directory to save files| `tmp` |
+| `reuse-comment` | Whether to reuse initial comment. | `false` |
+| `collapse-diff` | Whether to collapse diff | `false` |
 
 ## Screenshots
 

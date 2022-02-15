@@ -23,12 +23,15 @@ async function run() {
 
     let diff = await createDiff(tmpDir + "/" + oldMap, newMap, "diff", tmpDir)
     core.setOutput(JSON.stringify(diff))
-    
-    let message = "## Mudlet Map Diff\n"
 
+    let message = ""
+    
     const pull_request_number = context.payload.pull_request.number;
     const repository = context.payload.repository.name;
     const owner = context.payload.repository.owner.login;
+
+    const reuseComment = process.env.REUSE_COMMENT === "true"
+    const collapseDiff = process.env.COLLAPSE_DIFF === "true"
 
     const cloud_name = process.env.CLOUDINARY_NAME
     const cloud_key = process.env.CLOUDINARY_KEY
@@ -60,21 +63,49 @@ async function run() {
         message += `Diff:\n\`\`\`js\n${JSON.stringify(diff, null, 4)}\n\`\`\`\n`
     }
 
+    if (message === "") {
+        message = "No diff."
+    } else if(collapseDiff) {
+        message = `<details>${message}</details>`;
+    }
+
+    message = "## Mudlet Map Diff\n" + message
+
     console.log("===== Diff stats =====")
     console.log(`Changed: ${Object.keys(diff.changed).length}`)
     console.log(`Added: ${diff.added.length}`)
-    console.log(`Added: ${diff.deleted.length}`)
+    console.log(`Deleted: ${diff.deleted.length}`)
 
     const octokit = github.getOctokit(github_token, {
-      userAgent: 'mudlet-map-diff-action',
-    })
-
-    octokit.rest.issues.createComment({
-      owner: owner,
-      repo: repository,
-      issue_number: pull_request_number,
-      body: message
-    });
+        userAgent: 'mudlet-map-diff-action',
+      })
+  
+      let cm = [];
+  
+      if (reuseComment) {
+          let comments = await octokit.rest.issues.listComments({
+              owner: owner,
+              repo: repository,
+              issue_number: pull_request_number
+          })
+          cm = comments.data.filter(comment => comment.user && comment.user.login === 'github-actions[bot]' && comment.body && comment.body.includes("## Mudlet Map Diff"))
+      }
+  
+      if (cm.length > 0) {
+          octokit.rest.issues.updateComment({
+            owner: owner,
+            repo: repository,
+            comment_id: cm[0].id,
+            body: message
+          });
+      } else {
+          octokit.rest.issues.createComment({
+            owner: owner,
+            repo: repository,
+            issue_number: pull_request_number,
+            body: message
+          });
+      }
 
     core.info(`::set-output name=diff::${JSON.stringify(diff)}`)
 
