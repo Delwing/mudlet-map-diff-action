@@ -67,6 +67,10 @@ async function run() {
         message = "No diff."
     }
 
+    if (collapseDiff) {
+        message = `<details>${message}</details>`;
+    }
+
     message = "## Mudlet Map Diff\n" + message
 
     console.log("===== Diff stats =====")
