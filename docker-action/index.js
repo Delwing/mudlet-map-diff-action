@@ -65,9 +65,7 @@ async function run() {
 
     if (message === "") {
         message = "No diff."
-    }
-
-    if (collapseDiff) {
+    } else if(collapseDiff) {
         message = `<details>${message}</details>`;
     }
 
