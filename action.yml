@@ -20,6 +20,14 @@ inputs:
     description: 'Github Token'
     default: ${{ github.token }}
     required: false
+  reuse-comment:
+    description: 'Reuse comment'
+    default: 'false'
+    required: false
+  collapse-dif:
+    description: 'Collapse diff'
+    default: 'false'
+    required: false
 outputs:
   diff: 
     description: 'Diff JSON'
@@ -42,4 +50,6 @@ runs:
       uses: ./docker-action
       with:
         args: ${{inputs.old-map}} ${{inputs.new-map}} ${{inputs.github-token}} ${{inputs.tmp-dir}}
-    
+      env:
+        REUSE_COMMENT: ${{inputs.reuse-comment}}
+        COLLAPSE_DIFF: ${{inputs.collapse-diff}}

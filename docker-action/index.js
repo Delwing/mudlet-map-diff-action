@@ -30,6 +30,9 @@ async function run() {
     const repository = context.payload.repository.name;
     const owner = context.payload.repository.owner.login;
 
+    const reuseComment = process.env.REUSE_COMMENT === "true"
+    const collapseDiff = process.env.COLLAPSE_DIFF === "true"
+
     const cloud_name = process.env.CLOUDINARY_NAME
     const cloud_key = process.env.CLOUDINARY_KEY
     const cloud_secret = process.env.CLOUDINARY_SECRET
@@ -69,12 +72,37 @@ async function run() {
       userAgent: 'mudlet-map-diff-action',
     })
 
-    octokit.rest.issues.createComment({
-      owner: owner,
-      repo: repository,
-      issue_number: pull_request_number,
-      body: message
-    });
+    const octokit = github.getOctokit(github_token, {
+        userAgent: 'mudlet-map-diff-action',
+      })
+  
+  
+      let cm = [];
+  
+      if (reuseComment) {
+          let comments = await octokit.rest.issues.listComments({
+              owner: owner,
+              repo: repository,
+              issue_number: pull_request_number
+          })
+          cm = comments.data.filter(comment => comment.user && comment.user.login === 'github-actions[bot]' && comment.body && comment.body.includes("## Mudlet Map Diff"))
+      }
+  
+      if (cm.length > 0) {
+          octokit.rest.issues.updateComment({
+            owner: owner,
+            repo: repository,
+            comment_id: cm[0].id,
+            body: message
+          });
+      } else {
+          octokit.rest.issues.createComment({
+            owner: owner,
+            repo: repository,
+            issue_number: pull_request_number,
+            body: message
+          });
+      }
 
     core.info(`::set-output name=diff::${JSON.stringify(diff)}`)
 
