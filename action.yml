@@ -24,7 +24,7 @@ inputs:
     description: 'Reuse comment'
     default: 'false'
     required: false
-  collapse-dif:
+  collapse-diff:
     description: 'Collapse diff'
     default: 'false'
     required: false
