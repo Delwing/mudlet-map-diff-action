@@ -11,7 +11,6 @@ jobs:
         uses: ./
         with:
           new-map: example/map.dat
-          reuse-comments: true
         env:
           CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
           CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
