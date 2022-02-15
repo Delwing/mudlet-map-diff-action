@@ -69,13 +69,8 @@ async function run() {
     console.log(`Added: ${diff.deleted.length}`)
 
     const octokit = github.getOctokit(github_token, {
-      userAgent: 'mudlet-map-diff-action',
-    })
-
-    const octokit = github.getOctokit(github_token, {
         userAgent: 'mudlet-map-diff-action',
       })
-  
   
       let cm = [];
   
