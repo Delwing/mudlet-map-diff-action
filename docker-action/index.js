@@ -66,7 +66,7 @@ async function run() {
     if (message === "") {
         message = "No diff."
     } else if(collapseDiff) {
-        message = `<details>${message}</details>`;
+        message = `<details>\n${message}\n</details>`;
     }
 
     message = "## Mudlet Map Diff\n" + message
