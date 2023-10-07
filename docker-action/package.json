@@ -1,10 +1,10 @@
 {
   "name": "mudlet-map-diff-action",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.10.1",
     "@actions/github": "^5.1.1",
     "cloudinary": "^1.27.1",
     "mudlet-map-diff": "^0.2.1"

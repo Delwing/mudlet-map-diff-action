@@ -107,7 +107,7 @@ async function run() {
           });
       }
 
-    core.info(`::set-output name=diff::${JSON.stringify(diff)}`)
+    core.setOutput("diff", JSON.stringify(diff))
 
   } catch (error) {
     core.setFailed(error.message);
