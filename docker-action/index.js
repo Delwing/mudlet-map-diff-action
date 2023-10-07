@@ -22,8 +22,6 @@ async function run() {
     console.log("Tmp dir -> " , tmpDir)
 
     let diff = await createDiff(tmpDir + "/" + oldMap, newMap, "diff", tmpDir)
-    core.setOutput(JSON.stringify(diff))
-
     let message = ""
     
     const pull_request_number = context.payload.pull_request.number;
