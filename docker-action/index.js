@@ -106,9 +106,6 @@ async function run() {
             body: message
           });
       }
-
-    core.setOutput("diff", JSON.stringify(diff))
-
   } catch (error) {
     core.setFailed(error.message);
   }
