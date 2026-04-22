@@ -23,4 +23,4 @@ COPY --from=builder /app/package.json ./
 # so we don't need to install libcairo2, libpango, etc. manually.
 RUN npm install --omit=dev && rm -rf /root/.npm
 
-ENTRYPOINT ["node", "/app/dist/index.js"]
+ENTRYPOINT ["node", "/app/dist/index.cjs"]
