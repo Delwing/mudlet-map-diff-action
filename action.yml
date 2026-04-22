@@ -9,13 +9,9 @@ inputs:
     description: 'Path to old map'
     required: true
   new-map:
-    description: 'Path to new map id different'
+    description: 'Path to new map if different'
     required: false
     default: ""
-  tmp-dir:
-    description: 'Temporary directory for diff check'
-    default: 'tmp'
-    required: false
   github-token:
     description: 'Github Token'
     default: ${{ github.token }}
@@ -28,28 +24,17 @@ inputs:
     description: 'Collapse diff'
     default: 'false'
     required: false
+  summary:
+    description: 'Output diff to job summary'
+    default: 'true'
+    required: false
 outputs:
   diff: 
     description: 'Diff JSON'
     value: ${{ steps.diff-step.outputs.diff }}
+  markdown:
+    description: 'Markdown report'
+    value: ${{ steps.diff-step.outputs.markdown }}
 runs:
-  using: 'composite'
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.pull_request.base.ref }}
-        repository: ${{ github.event.pull_request.base.repo.full_name }}
-        fetch-depth: 0
-        path: ${{ inputs.tmp-dir }}
-    - name: Copy docker action
-      run: cp -r ${{ github.action_path}}/docker-action ./docker-action
-      shell: bash
-    - name: Diff
-      id: diff-step
-      uses: ./docker-action
-      with:
-        args: ${{inputs.old-map}} ${{inputs.new-map}} ${{inputs.github-token}} ${{inputs.tmp-dir}}
-      env:
-        REUSE_COMMENT: ${{inputs.reuse-comment}}
-        COLLAPSE_DIFF: ${{inputs.collapse-diff}}
+  using: 'docker'
+  image: 'Dockerfile'
