@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { createDiff } from "mudlet-map-diff";
-import cloudinaryUpload, { Diff } from "./cloudinary-upload";
+import cloudinaryUpload, { Diff } from "./cloudinary-upload.js";
 import * as fs from "fs";
 import * as path from "path";
 
