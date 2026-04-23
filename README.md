@@ -10,6 +10,10 @@ It automatically fetches the map files from the base and head branches of the pu
 ```yml
 on: [pull_request, pull_request_target]
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   map-diff:
     runs-on: ubuntu-latest
