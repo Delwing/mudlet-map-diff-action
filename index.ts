@@ -12,9 +12,11 @@ async function run() {
         if (context.payload.pull_request == null) {
             core.setFailed("No pull request found.");
             return;
+
         }
 
-        const octokit = github.getOctokit('github-token', {
+        const github_token = core.getInput("github-token", { required: true });
+        const octokit = github.getOctokit(github_token, {
             userAgent: "mudlet-map-diff-action",
         });
 
