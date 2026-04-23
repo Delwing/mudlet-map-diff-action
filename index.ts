@@ -63,8 +63,8 @@ async function run() {
     await fetchFile(baseRepo, pullRequest.base.ref, oldMapPath, tempOldMap);
     await fetchFile(headRepo, pullRequest.head.ref, newMapPath, tempNewMap);
 
-    console.log("Old map -> ", oldMapPath, " (saved to ", tempOldMap, ")");
-    console.log("New map -> ", newMapPath, " (saved to ", tempNewMap, ")");
+    console.log("Old map -> ", oldMapPath, " (saved to ", tempOldMap, ")", fs.statSync(oldMapPath).size);
+    console.log("New map -> ", newMapPath, " (saved to ", tempNewMap, ")",fs.statSync(oldMapPath).size);
 
     const diff: Diff = (await createDiff(tempOldMap, tempNewMap, {
       outDir: "diff",
