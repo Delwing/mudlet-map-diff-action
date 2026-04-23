@@ -100,13 +100,16 @@ async function run() {
             );
         }
 
+        const formatValue = (v: any): string => Buffer.isBuffer(v) ? "[buffer]" : JSON.stringify(v);
         const formatDiff = (d: Record<string, { from: any; to: any }>) => {
             let res = "";
             for (const prop in d) {
                 const {from, to} = d[prop];
-                res += `- **${prop}**: \`${JSON.stringify(from)}\` -> \`${JSON.stringify(
-                    to
-                )}\` \n`;
+                if (Buffer.isBuffer(from) || Buffer.isBuffer(to)) {
+                    res += `- **${prop}**: [buffer changed]\n`;
+                } else {
+                    res += `- **${prop}**: \`${formatValue(from)}\` -> \`${formatValue(to)}\` \n`;
+                }
             }
             return res;
         };
