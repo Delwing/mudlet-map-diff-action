@@ -1,6 +1,6 @@
 {
   "name": "mudlet-map-diff-action",
-  "version": "v11",
+  "version": "v12.RC.1",
   "type": "module",
   "main": "dist/index.js",
   "license": "MIT",

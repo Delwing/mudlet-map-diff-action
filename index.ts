@@ -131,10 +131,10 @@ async function run() {
         }
         for (const roomId in diff.rooms.updated) {
             message += `### Room (Updated): ${roomId}\n`;
-            message += formatDiff(diff.rooms.updated[roomId]);
             if (images[roomId + "_updated"]) {
                 message += `![${roomId}](${images[roomId + "_updated"]})\n`;
             }
+            message += formatDiff(diff.rooms.updated[roomId]);
             message += "\n---\n";
         }
 
@@ -160,12 +160,12 @@ async function run() {
         for (const compositeId in diff.labels.updated) {
             const [areaId, labelId] = compositeId.split("-");
             message += `### Label (Updated): ${labelId} (Area: ${areaId})\n`;
-            message += formatDiff(diff.labels.updated[compositeId]);
             if (images[areaId + "_" + labelId + "_updated_label"]) {
                 message += `![${labelId}](${
                     images[areaId + "_" + labelId + "_updated_label"]
                 })\n`;
             }
+            message += formatDiff(diff.labels.updated[compositeId]);
             message += "\n---\n";
         }
 
