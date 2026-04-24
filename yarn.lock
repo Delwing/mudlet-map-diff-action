@@ -637,16 +637,16 @@ ms@2.1.2:
 
 mudlet-map-binary-reader@^0.9.0:
   version "0.9.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-binary-reader/-/mudlet-map-binary-reader-0.9.0.tgz#aa2964223610ed525fda16691a72e1ad3e9d5c9b"
+  resolved "https://registry.npmjs.org/mudlet-map-binary-reader/-/mudlet-map-binary-reader-0.9.0.tgz"
   integrity sha512-ntS8qZhvkDwZx+uB53SsP6xHpZ8Hh17ePLAahaN9Pr/3A7CJvVdWO3awch9Fk1botHSBA8aqvpSzU6sIQi7hQw==
   dependencies:
     lodash "4.18.0"
     qtdatastream "^1.1.0"
 
-mudlet-map-diff@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.1.0.tgz#1790a28ad3dc30d05ef24ce4be3c7b48069343e1"
-  integrity sha512-M0fIf3DfTKYXj5ym9SSyyAMHjSM8rEcDhYWifXuqaP1khFvKpq+CLPjJtDnUJjbhuNHf/qDb+kPwX2rW6TKWAw==
+mudlet-map-diff@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/mudlet-map-diff/-/mudlet-map-diff-1.2.0.tgz"
+  integrity sha512-zwZlqbvimUwjVs9weDeEO+TGlzRgK02z3EWxdwTStm87loK2YYnyuH4XLyQGF5C+ktG/sym+aDFjw5Xqlg3HYg==
   dependencies:
     canvas "^3.2.3"
     commander "^14.0.3"
@@ -656,7 +656,7 @@ mudlet-map-diff@1.1.0:
 
 mudlet-map-renderer@^0.41.1-konva:
   version "0.41.1-konva"
-  resolved "https://registry.yarnpkg.com/mudlet-map-renderer/-/mudlet-map-renderer-0.41.1-konva.tgz#17cd434a5eb2605004e7f69a37e6f0023d2301e0"
+  resolved "https://registry.npmjs.org/mudlet-map-renderer/-/mudlet-map-renderer-0.41.1-konva.tgz"
   integrity sha512-YjYpLZblqoRK1JS0J3ZkcoVxdNLTZmqT9esUWQ5Z2gLKM7op8KHDw2bpZS468ZZ1duJOqGfJMGJ4uy/51C1puQ==
   dependencies:
     konva "^10.2.4"
