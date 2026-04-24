@@ -1,6 +1,6 @@
 {
   "name": "mudlet-map-diff-action",
-  "version": "v10",
+  "version": "v11",
   "type": "module",
   "main": "dist/index.js",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "@actions/github": "^9.1.1",
     "canvas": "^3.2.3",
     "cloudinary": "2.7.0",
-    "mudlet-map-diff": "1.0.0"
+    "mudlet-map-diff": "1.1.0"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
