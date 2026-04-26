@@ -68,10 +68,15 @@ async function run() {
         console.log("New map -> ", newMapPath, " (saved to ", tempNewMap, ")", fs.statSync(tempNewMap).size);
 
         console.log("Creating diff...");
+        core.startGroup("Rendering progress");
         const diff: Diff = (await createDiff(tempOldMap, tempNewMap, {
             outDir: "diff",
             html: false,
+            onProgress: (completed, total) => {
+                core.info(`Rendering: ${completed}/${total}`);
+            },
         })) as unknown as Diff;
+        core.endGroup();
         let message = "";
         console.log("Diff created successfully");
 

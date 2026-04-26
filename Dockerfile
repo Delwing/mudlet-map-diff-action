@@ -18,8 +18,11 @@ WORKDIR /app
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/package.json ./
 
+# fontconfig is required by node-canvas for font rendering
+RUN apt-get update && apt-get install -y --no-install-recommends fontconfig && rm -rf /var/lib/apt/lists/*
+
 # Install only production dependencies
-# node-canvas 3.x provides its own native binaries and shared libraries for Linux, 
+# node-canvas 3.x provides its own native binaries and shared libraries for Linux,
 # so we don't need to install libcairo2, libpango, etc. manually.
 RUN npm install --omit=dev && rm -rf /root/.npm
 
