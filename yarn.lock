@@ -441,13 +441,6 @@ csso@^5.0.5:
   dependencies:
     css-tree "~2.2.0"
 
-debug@^4.1.1:
-  version "4.3.2"
-  resolved "https://registry.npmjs.org/debug/-/debug-4.3.2.tgz"
-  integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
-  dependencies:
-    ms "2.1.2"
-
 decompress-response@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/decompress-response/-/decompress-response-6.0.0.tgz"
@@ -619,11 +612,6 @@ ini@~1.3.0:
   resolved "https://registry.npmjs.org/ini/-/ini-1.3.8.tgz"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-int64-buffer@^0.99.1007:
-  version "0.99.1007"
-  resolved "https://registry.npmjs.org/int64-buffer/-/int64-buffer-0.99.1007.tgz"
-  integrity sha512-XDBEu44oSTqlvCSiOZ/0FoUkpWu/vwjJLGSKDabNISPQNZ5wub1FodGHBljRsrR0IXRPq7SslshZYMuA55CgTQ==
-
 is-fullwidth-code-point@^5.0.0, is-fullwidth-code-point@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-5.1.0.tgz#046b2a6d4f6b156b2233d3207d4b5a9783999b98"
@@ -656,11 +644,6 @@ listr2@^10.2.1:
     log-update "^6.1.0"
     rfdc "^1.4.1"
     wrap-ansi "^10.0.0"
-
-lodash@4.18.0:
-  version "4.18.0"
-  resolved "https://registry.npmjs.org/lodash/-/lodash-4.18.0.tgz"
-  integrity sha512-l1mfj2atMqndAHI3ls7XqPxEjV2J9ZkcNyHpoZA3r2T1LLwDB69jgkMWh71YKwhBbK0G2f4WSn05ahmQXVxupA==
 
 lodash@^4.17.21:
   version "4.18.1"
@@ -716,28 +699,22 @@ mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   resolved "https://registry.npmjs.org/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz"
   integrity sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==
 
-ms@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
-  integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
-
-mudlet-map-binary-reader@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.npmjs.org/mudlet-map-binary-reader/-/mudlet-map-binary-reader-0.9.0.tgz"
-  integrity sha512-ntS8qZhvkDwZx+uB53SsP6xHpZ8Hh17ePLAahaN9Pr/3A7CJvVdWO3awch9Fk1botHSBA8aqvpSzU6sIQi7hQw==
-  dependencies:
-    lodash "4.18.0"
-    qtdatastream "^1.1.0"
-
-mudlet-map-diff@1.3.1:
+mudlet-map-binary-reader@^1.3.0:
   version "1.3.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.3.0.tgz#c03adb7e4e93ac56b6266b2261976a8f36b31190"
-  integrity sha512-WizShgijqrlQezayTvvE7TZb+7gC7M6DMgUlxGMTVa0GcRPy1H6eAD+A3CygS7AN+D9wUux6YEtPtM5tg0Wzrw==
+  resolved "https://registry.yarnpkg.com/mudlet-map-binary-reader/-/mudlet-map-binary-reader-1.3.0.tgz#fdb77db960ee3b014eb46676add0630d7f0038ac"
+  integrity sha512-HnpG/P3N0KuYOKbhTC9c61dBQtdiN6q0j1cz4ZYH5y3KqMLX+ZwlZyqSf7/Ltnz4skQOuJ7kvhDytL0DpMIdag==
+  dependencies:
+    qtdatastream-web "^0.0.1"
+
+mudlet-map-diff@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.4.0.tgz#c75fac188b7551466a4a2e317a4ff20d32d5a473"
+  integrity sha512-UloBhtc98JrfX0YEu2dizT0Q715SMbinvt4MgaCzY5/68+RVQCFMCtCEc5y84FyaXAU/YaKmWPiEKU0GfNFAfA==
   dependencies:
     canvas "^3.2.3"
     commander "^14.0.3"
     listr2 "^10.2.1"
-    mudlet-map-binary-reader "^0.9.0"
+    mudlet-map-binary-reader "^1.3.0"
     mudlet-map-renderer "0.42.1-konva"
     svgo "^4.0.1"
 
@@ -833,13 +810,10 @@ q@^1.5.1:
   resolved "https://registry.npmjs.org/q/-/q-1.5.1.tgz"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qtdatastream@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/qtdatastream/-/qtdatastream-1.1.0.tgz"
-  integrity sha512-XMcV74byyj5HJXDGco57tOQHvPmgUG80ke3Cn+v0VJYtph3Is+6/1tMk2vQNlJsecsBENrC4yP3DynsEf3mfWA==
-  dependencies:
-    debug "^4.1.1"
-    int64-buffer "^0.99.1007"
+qtdatastream-web@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/qtdatastream-web/-/qtdatastream-web-0.0.1.tgz#727d115dfd0943d783ec2bf45f27686f036227cf"
+  integrity sha512-2sqKGZmafCG8Gd4PQktoYlD3EabGnzCL7u0F/WkUY5U2Av2P0zeZnkDOAsTBWM/81+NhNpzyv5PSd6STZbvC+w==
 
 rc@^1.2.7:
   version "1.2.8"
