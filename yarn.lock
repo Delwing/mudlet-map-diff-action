@@ -699,22 +699,22 @@ mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   resolved "https://registry.npmjs.org/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz"
   integrity sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==
 
-mudlet-map-binary-reader@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-binary-reader/-/mudlet-map-binary-reader-1.3.0.tgz#fdb77db960ee3b014eb46676add0630d7f0038ac"
-  integrity sha512-HnpG/P3N0KuYOKbhTC9c61dBQtdiN6q0j1cz4ZYH5y3KqMLX+ZwlZyqSf7/Ltnz4skQOuJ7kvhDytL0DpMIdag==
+mudlet-map-binary-reader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/mudlet-map-binary-reader/-/mudlet-map-binary-reader-2.0.0.tgz#d3a9317b4f3c7ba8298b687fd8939175f0753684"
+  integrity sha512-IKY4TBHF8k1IT/WVunZeg0ABl365zxDNtzRSzFaqhyu73bfI011d2oLGiSwuUSCrpIxNohXMWr8/nnPtg0B0pw==
   dependencies:
     qtdatastream-web "^0.0.1"
 
-mudlet-map-diff@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.4.0.tgz#c75fac188b7551466a4a2e317a4ff20d32d5a473"
-  integrity sha512-UloBhtc98JrfX0YEu2dizT0Q715SMbinvt4MgaCzY5/68+RVQCFMCtCEc5y84FyaXAU/YaKmWPiEKU0GfNFAfA==
+mudlet-map-diff@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.5.0.tgz#c32fac77a8b6f28f021726499d51d1e25a6b29de"
+  integrity sha512-G+RaJ6NNoiaWtogDSefP6y4/cHUyBzF+BYIth69d6Bik1LcGGSwiuTxVib5BXx/HtkT8HYGQ8UcxYlIc8veDTQ==
   dependencies:
     canvas "^3.2.3"
     commander "^14.0.3"
     listr2 "^10.2.1"
-    mudlet-map-binary-reader "^1.3.0"
+    mudlet-map-binary-reader "^2.0.0"
     mudlet-map-renderer "0.42.1-konva"
     svgo "^4.0.1"
 
