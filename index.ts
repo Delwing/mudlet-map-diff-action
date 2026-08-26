@@ -58,11 +58,67 @@ async function run() {
             }
         };
 
+        const pull_request_number = context.payload.pull_request.number;
+        const repository = (context.payload.repository as any).name;
+        const owner = (context.payload.repository as any).owner.login;
+
+        const reuseComment = core.getInput("reuse-comment") === "true";
+        const collapseDiff = core.getInput("collapse-diff") === "true";
+        const incremental = core.getInput("incremental") === "true" && !reuseComment;
+
+        const headSha: string = pullRequest.head.sha;
+
+        // Every report states which commit it covers, so the next run can pick up from there.
+        const reportedShaPattern = /Comparing \[?`([0-9a-f]{7,40})`/;
+
+        let previousComments: any[] = [];
+        if (reuseComment || incremental) {
+            const comments = await octokit.paginate(octokit.rest.issues.listComments, {
+                owner: owner,
+                repo: repository,
+                issue_number: pull_request_number,
+                per_page: 100,
+            });
+            previousComments = (comments as any[]).filter(
+                (comment: any) => comment.body && comment.body.includes("## Mudlet Map Diff")
+            );
+        }
+
+        let previousSha: string | null = null;
+        if (incremental) {
+            for (const comment of previousComments) {
+                const match = reportedShaPattern.exec(comment.body);
+                if (match) {
+                    previousSha = match[1];
+                }
+            }
+            // The reported SHA is abbreviated, so compare it as a prefix of the current head.
+            if (previousSha && headSha.startsWith(previousSha)) {
+                core.info(`Previous report already covers ${headSha}, diffing against base branch instead.`);
+                previousSha = null;
+            }
+        }
+
         const tempOldMap = path.join(process.cwd(), "old_map.dat");
         const tempNewMap = path.join(process.cwd(), "new_map.dat");
 
-        await fetchFile(baseRepo, pullRequest.base.ref, oldMapPath, tempOldMap);
-        await fetchFile(headRepo, pullRequest.head.ref, newMapPath, tempNewMap);
+        let comparedAgainst = `base branch \`${pullRequest.base.ref}\``;
+        let fetchedOld = false;
+        if (previousSha) {
+            try {
+                await fetchFile(headRepo, previousSha, newMapPath, tempOldMap);
+                comparedAgainst = `previously reported commit \`${previousSha.substring(0, 7)}\``;
+                fetchedOld = true;
+            } catch (e: any) {
+                core.warning(
+                    `Could not fetch map from previously reported commit ${previousSha} (${e.message}). Falling back to the base branch.`
+                );
+            }
+        }
+        if (!fetchedOld) {
+            await fetchFile(baseRepo, pullRequest.base.ref, oldMapPath, tempOldMap);
+        }
+        await fetchFile(headRepo, headSha, newMapPath, tempNewMap);
 
         console.log("Old map -> ", oldMapPath, " (saved to ", tempOldMap, ")", fs.statSync(tempOldMap).size);
         console.log("New map -> ", newMapPath, " (saved to ", tempNewMap, ")", fs.statSync(tempNewMap).size);
@@ -79,13 +135,6 @@ async function run() {
         core.endGroup();
         let message = "";
         console.log("Diff created successfully");
-
-        const pull_request_number = context.payload.pull_request.number;
-        const repository = (context.payload.repository as any).name;
-        const owner = (context.payload.repository as any).owner.login;
-
-        const reuseComment = core.getInput("reuse-comment") === "true";
-        const collapseDiff = core.getInput("collapse-diff") === "true";
 
         const cloud_name = process.env.CLOUDINARY_NAME;
         const cloud_key = process.env.CLOUDINARY_KEY;
@@ -202,7 +251,10 @@ async function run() {
             message = `<details>\n<summary>Diff details</summary>\n\n${message}\n</details>`;
         }
 
-        message = "## Mudlet Map Diff\n" + message;
+        message =
+            "## Mudlet Map Diff\n" +
+            `_Comparing \`${headSha.substring(0, 7)}\` against ${comparedAgainst}._\n\n` +
+            message;
 
         if (summaryInput) {
             await core.summary.addRaw(message).write();
@@ -230,17 +282,8 @@ async function run() {
 
         let cm: any[] = [];
         if (reuseComment) {
-            const comments = await octokit.rest.issues.listComments({
-                owner: owner,
-                repo: repository,
-                issue_number: pull_request_number,
-            });
-            cm = (comments.data as any[]).filter(
-                (comment: any) =>
-                    comment.user &&
-                    comment.user.login === "github-actions[bot]" &&
-                    comment.body &&
-                    comment.body.includes("## Mudlet Map Diff")
+            cm = previousComments.filter(
+                (comment: any) => comment.user && comment.user.login === "github-actions[bot]"
             );
         }
 

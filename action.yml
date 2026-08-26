@@ -20,6 +20,10 @@ inputs:
     description: 'Reuse comment'
     default: 'false'
     required: false
+  incremental:
+    description: 'Diff against the head commit of the previous report instead of the base branch. Ignored when reuse-comment is true.'
+    default: 'false'
+    required: false
   collapse-diff:
     description: 'Collapse diff'
     default: 'false'

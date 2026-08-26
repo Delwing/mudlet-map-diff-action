@@ -29,6 +29,25 @@ jobs:
           CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
 ```
 
+### Incremental diffs
+
+By default every run compares the head of the pull request against the base branch, so each new
+comment repeats the whole diff of the PR. With `incremental: true` (and `reuse-comment: false`) the
+action instead compares against the commit reported by the previous comment:
+
+```yml
+with:
+  old-map: map/map.dat
+  reuse-comment: false
+  incremental: true
+```
+
+The first comment on a PR still diffs against the base branch; every following comment only shows
+what changed since the previous comment. Each report opens with a line stating which commit it
+covers (`Comparing abc1234 against ...`), and the next run reads that line back to find the starting
+point — so a run that fails or never posts does not drop its commits from the chain. If the commit
+is gone (e.g. after a force-push) the action falls back to the base branch and logs a warning.
+
 ### Permissions
 
 If you use the default `GITHUB_TOKEN`, ensure it has the following permissions:
@@ -49,6 +68,7 @@ permissions:
 | `old-map` | Path to map file in repository. | |
 | `new-map` | New map file path. Use if differs from `old-map` |  |
 | `reuse-comment` | Whether to reuse initial comment. | `false` |
+| `incremental` | Diff against the head commit of the previous report instead of the base branch. Ignored when `reuse-comment` is `true`. | `false` |
 | `collapse-diff` | Whether to collapse diff | `false` |
 | `summary` | Whether to output diff to job summary | `true` |
 
