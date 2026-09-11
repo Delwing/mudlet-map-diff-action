@@ -706,10 +706,10 @@ mudlet-map-binary-reader@^2.0.0:
   dependencies:
     qtdatastream-web "^0.0.1"
 
-mudlet-map-diff@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.5.0.tgz#c32fac77a8b6f28f021726499d51d1e25a6b29de"
-  integrity sha512-G+RaJ6NNoiaWtogDSefP6y4/cHUyBzF+BYIth69d6Bik1LcGGSwiuTxVib5BXx/HtkT8HYGQ8UcxYlIc8veDTQ==
+mudlet-map-diff@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/mudlet-map-diff/-/mudlet-map-diff-1.5.1.tgz#b5611deffa6fe96087909c3f2749f4b44739e8b1"
+  integrity sha512-dSnJLY/Sl74EOyyNnD50e4qn0JC1gAmc4l7b0ZDdXIe6j6hZCPrfbr6FX+7llRVfPFeWACPx5E3PW6qxcG7ERg==
   dependencies:
     canvas "^3.2.3"
     commander "^14.0.3"
