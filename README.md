@@ -2,6 +2,9 @@
 
 Github action that allows to compare two Mudlet binary file maps.
 It is to be used in pull requests. It will generate a comment containing a diff for the map. If provided with Cloudinary access, it will upload images and post them in the comment as well.
+
+GitHub limits a comment to 65,536 characters. A report longer than that is posted as several consecutive comments, each marked "part N of M". With `reuse-comment: true` the parts are updated in place, and leftover parts from a longer earlier report are deleted.
+
 This is a Docker-based action, which means it currently only supports Linux runners (`runs-on: ubuntu-latest`).
 It automatically fetches the map files from the base and head branches of the pull request, so no manual checkout is required.
 

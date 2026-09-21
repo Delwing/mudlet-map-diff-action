@@ -5,6 +5,81 @@ import cloudinaryUpload, {Diff} from "./cloudinary-upload.js";
 import * as fs from "fs";
 import * as path from "path";
 
+// GitHub rejects issue comments longer than this, so a long report has to be
+// spread over several comments.
+const COMMENT_BODY_LIMIT = 65536;
+// Slack for the collapsible wrapper and for the header growing by a digit once the
+// part count is known.
+const COMMENT_BODY_MARGIN = 512;
+
+// Breaks up a piece of text that does not fit on its own, preferring line boundaries.
+function hardWrap(text: string, budget: number): string[] {
+    const chunks: string[] = [];
+    let rest = text;
+    while (rest.length > budget) {
+        let cut = rest.lastIndexOf("\n", budget);
+        if (cut <= 0) {
+            cut = budget;
+        }
+        chunks.push(rest.slice(0, cut));
+        rest = rest.slice(cut).replace(/^\n/, "");
+    }
+    if (rest !== "") {
+        chunks.push(rest);
+    }
+    return chunks;
+}
+
+// Every entry of the report ends with a horizontal rule, so those are the natural
+// places to break the report apart.
+function splitIntoSections(body: string): string[] {
+    const separator = "\n---\n";
+    const parts = body.split(separator);
+    const sections = parts
+        .map((part, index) => (index < parts.length - 1 ? part + separator : part))
+        .filter((part) => part !== "");
+    return sections.length > 0 ? sections : [body];
+}
+
+function packSections(sections: string[], budget: number): string[] {
+    const bodies: string[] = [];
+    let current = "";
+    for (const section of sections) {
+        for (const piece of hardWrap(section, budget)) {
+            if (current !== "" && current.length + piece.length > budget) {
+                bodies.push(current);
+                current = "";
+            }
+            current += piece;
+        }
+    }
+    if (current !== "") {
+        bodies.push(current);
+    }
+    return bodies;
+}
+
+function buildCommentBodies(
+    body: string,
+    header: (part: number, total: number) => string,
+    wrap: (body: string) => string
+): string[] {
+    const sections = splitIntoSections(body);
+    let bodies: string[] = [];
+    let total = 1;
+    // The header states how many comments there are, which changes its own length,
+    // so let the part count settle over a few passes.
+    for (let attempt = 0; attempt < 5; attempt++) {
+        const budget = COMMENT_BODY_LIMIT - header(total, total).length - COMMENT_BODY_MARGIN;
+        bodies = packSections(sections, budget);
+        if (bodies.length === total) {
+            break;
+        }
+        total = bodies.length;
+    }
+    return bodies.map((part, index) => header(index + 1, bodies.length) + wrap(part));
+}
+
 async function run() {
     try {
         const context = github.context;
@@ -245,16 +320,26 @@ async function run() {
             message += "\n---\n";
         }
 
-        if (message === "") {
+        const empty = message === "";
+        if (empty) {
             message = "No diff.";
-        } else if (collapseDiff) {
-            message = `<details>\n<summary>Diff details</summary>\n\n${message}\n</details>`;
         }
 
-        message =
+        // Every part repeats the header, so each comment is still recognised as a
+        // report and carries the commit it covers.
+        const header = (part: number, total: number) =>
             "## Mudlet Map Diff\n" +
-            `_Comparing \`${headSha.substring(0, 7)}\` against ${comparedAgainst}._\n\n` +
-            message;
+            `_Comparing \`${headSha.substring(0, 7)}\` against ${comparedAgainst}._` +
+            (total > 1 ? ` _(part ${part} of ${total})_` : "") +
+            "\n\n";
+
+        const wrap = (body: string) =>
+            collapseDiff && !empty
+                ? `<details>\n<summary>Diff details</summary>\n\n${body}\n</details>`
+                : body;
+
+        const bodies = buildCommentBodies(message, header, wrap);
+        message = header(1, 1) + wrap(message);
 
         if (summaryInput) {
             await core.summary.addRaw(message).write();
@@ -282,32 +367,46 @@ async function run() {
 
         let cm: any[] = [];
         if (reuseComment) {
-            cm = previousComments.filter(
-                (comment: any) => comment.user && comment.user.login === "github-actions[bot]"
-            );
+            cm = previousComments
+                .filter((comment: any) => comment.user && comment.user.login === "github-actions[bot]")
+                .sort((a: any, b: any) => a.id - b.id);
         }
 
-        if (cm.length > 0) {
-            await octokit.rest.issues.updateComment({
-                owner: owner,
-                repo: repository,
-                comment_id: cm[0].id,
-                body: message,
-            });
-        } else {
-            try {
-                await octokit.rest.issues.createComment({
+        if (bodies.length > 1) {
+            core.info(`Report is ${message.length} characters long, posting it as ${bodies.length} comments.`);
+        }
+
+        try {
+            for (let index = 0; index < bodies.length; index++) {
+                if (index < cm.length) {
+                    await octokit.rest.issues.updateComment({
+                        owner: owner,
+                        repo: repository,
+                        comment_id: cm[index].id,
+                        body: bodies[index],
+                    });
+                } else {
+                    await octokit.rest.issues.createComment({
+                        owner: owner,
+                        repo: repository,
+                        issue_number: pull_request_number,
+                        body: bodies[index],
+                    });
+                }
+            }
+            // A shorter report than the previous one would otherwise leave stale parts behind.
+            for (const stale of cm.slice(bodies.length)) {
+                await octokit.rest.issues.deleteComment({
                     owner: owner,
                     repo: repository,
-                    issue_number: pull_request_number,
-                    body: message,
+                    comment_id: stale.id,
                 });
-            } catch (e: any) {
-                if (e.status === 403) {
-                    core.warning("Failed to create comment: Permission denied. If this is a pull request from a fork, consider using 'pull_request_target' or a PAT with 'repo' scope.");
-                } else {
-                    throw e;
-                }
+            }
+        } catch (e: any) {
+            if (e.status === 403) {
+                core.warning("Failed to create comment: Permission denied. If this is a pull request from a fork, consider using 'pull_request_target' or a PAT with 'repo' scope.");
+            } else {
+                throw e;
             }
         }
     } catch (error: any) {
